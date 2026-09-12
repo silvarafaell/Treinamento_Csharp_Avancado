@@ -259,7 +259,65 @@ Curso Treinamento C# Avançado no nextwave(LuisDEV)
     - Comportamento Não Determinístico: a ordem em que as operações concorrentes são executadas pode levar a resultados não determinísticos em algumas situações, especialmente em cenários complexos
     - Overhead de Memória: algumas coleções concorrentes podem exigir um certo overhead de memória para armazenar informações de controle adicional, o que pode impactar o consumo de memória
 
+- Garbage Collector
+  - Funciona como um gerenciador de memória automático no Common Language Runtime (CLR).
+  - O desenvolvedor trabalha apenas com espaço de endereço virtual e nunca manipula a memória física diretamente
+  - Heap vs Stack
+  - Aloca objetos no heap gerenciado com eficiência
+  - Recupera objetos que não estão mais sendo usados
+  - Evite uso desnecessário do Garbage Collector
+  - Quando o Garbage Collector é acionado?
+    - Não existe total clareza, mas existem condições:
+    - O sistema tem pouca memória física.
+    - A memória usada por objetos alocados no heap gerenciado ultrapassa um limite aceitável
+    - Quando é feita solicitação de alocação no heap gerenciado
+    - O método GC.Collect é chamado (CUIDADO).
+  - Gerações do Garbage Collector:
+    - A coleta de lixo ocorre principalmente com a recuperação de objetos de vida curta
+    - Geração 0 : Esta geração é a mais jovem e contém objetos de vida curta
+    - Geração 1 : Esta geração contém objetos de vida curta e serve como um buffer entre objetos de vida curta e objetos de vida longa
+    - Geração 2 : Esta geração contém objetos de vida longa.
+    - LOH (também pode ser chamado de Geração 3): Outro tipo de memória, utilizado quando necessário uma alocação de memória muito grande (maior que 85000 bytes)
+    - Os objetos que não são recuperados em uma coleta de lixo são conhecidos como sobreviventes e são promovidos para a próxima geração.
 
+- IDisposable/Dispose
+  - Objetos que implementam System.IDisposable ou System.IAsyncDisposable devem ser sempre descartados corretamente, independentemente do escopo de variável
+  - Os tipos que definem um finalizador para liberar recursos não gerenciados geralmente chamam GC.SuppressFinalize da implementação Dispose
+  - A chamada SuppressFinalize indica ao GC que o finalizador já foi executado e que o objeto não deve ser promovido para finalização
+  
+- Task Parallel Library (TPL)
+  - Parte importante do .NET Framework (e do .NET Core / .NET 5+), permitindo a execução paralela de tarefas para melhorar o desempenho de aplicativos
+  - A TPL, (em português: Biblioteca de tarefas paralelas) é fornecido pelos conjuntos de tipos públicos em System.Threading e namespaces do System.Threading.Tasks
+  - É considerado uma evolução de Thread / ThreadPool
+  - Benefícios relacionados TPL
+    - Possui o objetivo de diminuir a complexidade de trabalhar com paralelismo, aumentando a produtividade do desenvolvedor, podendo ele concentrar-se mais na regra de negócio
+    - Aproximadamente 35% mais performático que a Thread.
+  - Cuidados que devemos ter com TPL
+    - Uso inteligente: Seu uso não deve ser feito em cenários onde o bloco de código por si só já é rápido, do contrário, será mais provável que o código venha a ficar lento por conta do gerenciamento das threads
+    - Deadlocks: Evite situações de deadlock, onde várias tarefas estão aguardando umas pelas outras, bloqueando o progresso do programa. Isso pode ocorrer quando há bloqueios mútuos ou dependências circulares entre as tarefas
+    - Depuração: A depuração de problemas em cenários paralelos pode ser complexa. Use ferramentas de depuração, logs e técnicas de profiling para identificar problemas e entender o comportamento das tarefas
+  - O que é thread safe:
+    - Refere a um estado ou condição em que um programa ou sistema pode ser executado simultaneamente por várias threads sem causar comportamentos inesperados ou resultados incorretos
+    - Em código "thread-safe", as operações em dados compartilhados são coordenadas de tal maneira que não ocorrem conflitos de acesso e manipulação
+  - Cuidados em thread safe e Atômicos:
+    - Evite Deadlocks: Certifique-se de que os bloqueios sejam adquiridos sempre na mesma ordem para evitar possíveis deadlocks, onde as threads ficam presas esperando por recursos que nunca são liberados.
+    - Interlocked: Use métodos e operações "Interlocked" ou outras construções atômicas fornecidas pela linguagem para operações simples que precisam ser executadas de maneira indivisível. Isso evita problemas de condições de corrida
+    - Lock: Assim como Interlocked, ele trata solicitações de forma atômica, porém ele oferece uma flexibilidade maior, uma vez que podemos fazer uso de tipos complexos e até blocos de código serem tratados desta forma. Porém seu cuidado deverá ser mais minucioso, pois uma vez que ele oferece uma flexibilidade maior, também         demandará mais recursos durante o processamento
+  - Um pouco mais sobre Atômicos e "Interlocked":
+    - Uma operação atômica é uma operação que é realizada em uma única unidade indivisível, sem ser interrompida por outras operações. Isso significa que, quando uma operação atômica está ocorrendo, nenhuma outra operação pode ocorrer simultaneamente
+    - Interlocked é uma boa opção para variáveis de tipos primitivos
+    - Interlocked.Add: Adiciona um valor a uma variável de forma atômica. Por exemplo, Interlocked.Add(ref counter, 5) adicionaria 5 à variável counter
+    - Interlocked.Increment e Interlocked.Decrement: Incrementa e decrementa uma variável em uma unidade, respectivamente, de forma atômica
+  - Um pouco mais sobre Lock
+    - Proteção de Recursos Compartilhados: O lock é útil quando você precisa acessar ou modificar dados compartilhados, como objetos ou variáveis, de várias threads
+    - Simplicidade: A construção lock é relativamente simples de usar, pois lida automaticamente com a aquisição e a liberação do bloqueio
+    - Deadlocks: Cuidado ao usar vários bloqueios em sequência, pois isso pode levar a deadlocks, onde as threads ficam bloqueadas indefinidamente esperando por recursos que nunca são liberados
+    - Código na Região Crítica: Mantenha o código dentro da região crítica (lock) o mais simples e rápido possível. Operações que levam muito tempo para executar podem aumentar o risco de bloqueios
+  - Métodos mais usados em TPL
+    - Parallel.For: Executa um loop for no qual as iterações podem ser executadas em paralelo.
+    - Parallel.Foreach: Executa uma operação foreach no qual as iterações podem ser executadas em paralelo
+    - Task.WhenAll: Cria uma tarefa (task) que será concluída quando todas as tarefas fornecidas forem concluídas
+    - Task.Delay: Cria uma tarefa que será concluída após um atraso. (alternativa a Thread.Sleep)
 
 
 
