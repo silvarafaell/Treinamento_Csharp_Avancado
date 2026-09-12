@@ -145,6 +145,125 @@ Curso Treinamento C# Avançado no nextwave(LuisDEV)
   - São delegates pré-definidos em C#
   - Func
     - Define uma assinatura de método que retorne um valor
+    - Por exemplo, o método Where utiliza um Func<T, bool>
+  - Action
+    - Define uma assinatura que não retorna um valor
+    - Por exemplo, o método ForEach utiliza um Action<T>
+  - Predicate
+    - Define uma assinatura que retorna um valor booleano
+    - Por exemplo, o FindAll utiliza um Predicate<T>
+    
+- Events
+  - Eventos são mecanismos que permitem que objetos comuniquem entre si por meio de notificações quando um evento ocorre
+  - Eles são amplamente utilizados na programação orientada a eventos, onde um objeto, conhecido como publicador (publisher), notifica outros objetos,conhecidos como assinantes (subscribers) ou ouvintes (listeners), sobre mudanças ou ocorrências relevantes
+  - Isso permite a criação de sistemas interativos, como interfaces de usuário que respondem a cliques de botão
+  - Além disso, bibliotecas famosas utilizem eles, como por exemplo o RabbitMQ.Client
+  - Entre os seus principais benefícios estão
+    - Desacoplamento: promovem o desacoplamento entre componentes, pois os objetos que geram eventos não precisam conhecer os detalhes dos assinantes
+    - Flexibilidade: assinantes podem ser facilmente adicionados ou removidos sem afetar o código do publicador
+    - Comunicação Eficiente: permitem a comunicação eficiente entre diferentes partes de um aplicativo, facilitando a interação entre objetos
+    - Centralização: permitem centralizar a lógica de notificação em um único local, tornando o código mais organizado
+    - Extensibilidade: são fundamentais para a criação de bibliotecas reutilizáveis que podem ser estendidas por meio de assinantes
+  - Entre os seus principais desafios estão
+    - Gerenciamento de Assinantes: garantir que assinantes sejam corretamente adicionados e removidos para evitar vazamentos de memória pode ser desafiador
+    - Ordem de Execução: a ordem em que os assinantes são notificados pode afetar o comportamento do aplicativo, e isso deve ser considerado ao projetar eventos
+    - Depuração: identificar problemas em cenários de eventos pode ser mais complexo devido à natureza assíncrona e distribuída das notificações
+    - Complexidade: podem adicionar complexidade ao desenho do código, especialmente em aplicações com muitos objetos interconectados por eventos
+
+- Async-Await
+  - Em C#, uma tarefa (Task) é uma unidade de trabalho que pode serexecutada em paralelo, mas não necessariamente em uma nova thread. Ela é gerenciada pelo runtime e pode ser agendada para execução em um thread do pool de threads
+  - Uma thread, por outro lado, é uma unidade de execução de código. Threads são recursos mais pesados e custosos em termos de criação e gerenciamento do que Tasks
+  - A programação assíncrona é um paradigma de desenvolvimento de software que visa aprimorar a eficiência e a capacidade de resposta de um programa, especialmente quando se lida com operações que podem ser demoradas, como entrada/saída (I/O), incluindo acesso a bancos de dados, chamadas de rede, leitura de arquivos, e            processamento de tarefas intensivas
+  - O conceito de programação assíncrona gira em torno da ideia de executar tarefas de forma não sequencial, permitindo que o programa continue avançando enquanto aguarda a conclusão de operações bloqueantes, como a leitura de um arquivo ou o envio de uma solicitação de rede
+  - Em .NET, isso é alcançado principalmente usando duas palavras-chave em C#: async e await
+  - Async: A palavra-chave async é usada para marcar um método como assíncrono. Isso indica ao compilador que o método pode conter operações assíncronas e que ele não será executado de maneira sequencial (bloqueante)
+  - Await: A palavra-chave await é usada para pausar a execução de um método assíncrono até que a operação assíncrona seja concluída. Enquanto aguarda a conclusão, o thread atual não fica bloqueado, permitindo que ele seja usado para outras tarefas
+    - Ao não utilizar async-await em operações de I/O, existe o risco de um problema chamado Thread Starvation, onde muitas Threads ficam aguardando a execução
+    - Suponha que várias chamadas HTTP ou de Banco de Dados, com longos tempos de espera, sem o uso de async await
+    
+- Task Continuations
+  - As Tarefas de Continuação são uma parte fundamental da programação assíncrona em C#
+  - Permitem que você defina o código que deve ser executado quando uma tarefa assíncrona é concluída. Isso oferece maior controle sobre o fluxo de execução e permite a composição de várias operações assíncronas em sequências lógicas
+  - Entre os seus principais benefícios estão
+    - Sequenciamento de Operações Assíncronas: as tarefas de continuação permitem que você encadeie operações assíncronas em uma sequência lógica. Isso simplifica a escrita de código assíncrono, tornando-o mais legível e compreensível
+    - Gerenciamento de Erros Simplificado: ao usar tarefas de continuação, você pode lidar com exceções de maneira centralizada. Isso facilita o tratamento de erros em várias etapas de uma operação assíncrona
+    - Composição de Operações Assíncronas: você pode criar um pipeline de operações assíncronas, onde cada tarefa de continuação realiza uma etapa específica após a conclusão da tarefa anterior
+  - Entre os seus principais desafios estão
+    - Complexidade de Leitura: embora elas facilitem o encadeamento de operações, um grande número de tarefas de continuação pode tornar o código mais difícil de ler e entender, especialmente quando as operações são muito detalhadas
+    - Gerenciamento de Fluxo e Depuração: se não forem configuradas adequadamente, você pode acabar com fluxos de execução complexos e difíceis de depurar
+    - Sincronização e Concorrência: ao encadear várias tarefas de continuação, é importante considerar a sincronização e a concorrência, para evitar condições de corrida e resultados inesperados
+
+- Multithreading
+  - Multithreading refere-se à capacidade de um programa executar múltiplas threads (ou fluxos de execução) de forma concorrente em um único processo
+  - Cada thread representa uma sequência de instruções que é executada de forma independente das outras threads
+  - Em outras palavras, o multithreading permite que um programa execute várias tarefas simultaneamente, aproveitando os recursos de processamento disponíveis
+  - Os benefícios principais relacionados a Multithreading
+    - Melhoria no Desempenho: permite que um programa execute várias tarefas ao mesmo tempo, aproveitando ao máximo os recursos de hardware disponíveis e melhorando o desempenho geral
+    - Resposta Rápida: Ao dividir tarefas em threads separadas, um programa pode responder a eventos externos, como entradas do usuário, enquanto continua a executar outras tarefas em segundo plano
+    - Utilização Eficiente do Processador: permite que o processador seja usado de forma mais eficiente, especialmente em sistemas com vários núcleos de CPU
+  - Os desafios principais relacionados a Multithreading
+    - Condições de Corrida: quando várias threads acessam recursos compartilhados simultaneamente, podem ocorrer condições de corrida, levando a resultados imprevisíveis e erros
+    - Sincronização e Bloqueio: a sincronização adequada entre threads requer cuidado para evitar bloqueios excessivos ou subutilização de recurso. A sincronização refere-se à coordenação entre threads para garantir que o acesso a recursos compartilhados seja feito de forma segura e consistente, evitando condições de corrida        e problemas de concorrência
+    - Deadlocks: deadlocks ocorrem quando duas ou mais threads ficam bloqueadas, esperando umas pelas outras para liberar recursos
+    - Debugging Complexo: depurar problemas de concorrência pode ser complexo, pois os erros podem ser intermitentes e difíceis de reproduzir
+    
+- Semaphore e Locks
+  - Locks e Semaphores são mecanismos de sincronização usados para controlar o acesso concorrente a recursos compartilhados em ambientes multithread
+  - Eles são especialmente importantes em aplicações onde vários threads competem pelo acesso a seções críticas do código
+  - O conceito de "lock" (ou bloqueio) refere-se a um mecanismo de sincronização usado em programação concorrente para garantir que apenas uma thread tenha acesso exclusivo a um recurso compartilhado por vez
+    - O objetivo principal do uso de locks é evitar condições de corrida, onde várias threads tentam acessar ou modificar o mesmo recurso simultaneamente, levando a resultados indesejados ou inconsistentes.
+  - Quando uma thread deseja acessar o recurso compartilhado, ela solicita um lock no recurso
+    - Se o lock estiver disponível, a thread obtém o acesso exclusivo ao recurso e o lock é adquirido
+    - Se o lock já estiver sendo mantido por outra thread, a thread solicitante fica bloqueada até que o lock seja liberado
+  - Benefícios relacionados ao Lock
+    - Sincronização: garante que apenas uma thread possa acessar o recurso compartilhado por vez, prevenindo condições de corrida e mantendo a consistência dos dados
+    - Evita Conflitos: evita conflitos quando várias threads tentam modificar o mesmo recurso simultaneamente
+  - Desafios relacionados ao Lock
+    - Deadlocks: um deadlock pode ocorrer se duas ou mais threads ficarem bloqueadas, cada uma esperando que a outra libere um recurso
+    - Overhead de Desempenho: o uso indiscriminado de locks pode levar a um overhead de desempenho, pois pode resultar em bloqueios excessivos e atrasos
+  - O conceito de "semáforos" é um mecanismo mais abrangente de sincronização usado para controlar o acesso a um número específico de recursos compartilhados
+  - Um semáforo age como um controlador que gerencia a quantidade de acesso permitido a um determinado recurso ou seção crítica
+  - Possui um valor inteiro que pode ser incrementado ou decrementado pelas threads. Quando o valor do semáforo é maior que zero, as threads podem adquirir acesso aos recursos
+  - Quando o valor do semáforo é zero, as threads ficam bloqueadas até que o semáforo seja incrementado por outra thread
+  - Entre os principais benefícios relacionados a Semáforos
+    - Controle de Acesso: permitem controlar o acesso a um número específico de recursos, evitando a sobrecarga de recursos compartilhados
+    - Gerenciamento de Recursos: são úteis para gerenciar recursos limitados, como conexões de rede, pool de threads e semelhantes
+  - Entre os principais desafios relacionados a Semáforos estão
+    - Complexidade: a gestão e coordenação de múltiplos semáforos podem ser complexas, especialmente em sistemas com muitos recursos compartilhados
+    - Deadlocks: assim como com locks, o uso inadequado de semáforos pode levar a deadlocks quando as threads ficam bloqueadas esperando uns pelos outros
+
+- Interlocked
+  - A classe Interlocked em C# fornece operações atômicas para trabalhar com tipos numéricos primitivos
+  - Essas operações garantem que as operações de leitura, modificação e gravação sejam executadas de forma atômica, sem a necessidade de bloqueios explícitos
+  - Isso é particularmente útil em cenários multithreaded, onde várias threads podem acessar e modificar uma variável compartilhada simultaneamente.
+
+- Coleções Concorrentes
+  - As coleções concorrentes são estruturas de dados projetadas especificamente para suportar acesso concorrente seguro a partir de várias threads
+  - Elas são uma parte fundamental da programação concorrente e multithreading, permitindo que várias threads acessem e manipulem dados compartilhados de maneira eficiente e sem a necessidade de bloqueios manuais
+  - Principais coleções concorrentes
+    - ConcurrentBag
+    - ConcurrentDictionary
+    - ConcurrentQueue
+    - ConcurrentStack
+  - Principais coleções concorrentes
+    - ConcurrentBag: uma coleção não ordenada que pode armazenar elementos em ordem aleatória. É útil para cenários em que a ordem dos elementos não é importante
+    - ConcurrentDictionary: é uma coleção de chave-valor que permite o acesso simultâneo seguro por várias threads. É eficiente para cenários que requerem acesso rápido e seguro a elementos por meio de chaves
+    - ConcurrentQueue: é uma fila concorrente que oferece suporte a operações de enfileiramento (enqueue) e desenfileiramento (dequeue) seguras por várias threads
+    - ConcurrentStack: é uma pilha concorrente que oferece suporte a operações de empilhamento (push) e desempilhamento (pop) seguras por várias threads
+  - Benefícios relacionados a coleções concorrentes
+    - Segurança de Threads: garantem que as operações de leitura e escrita possam ocorrer simultaneamente sem resultar em condições de corrida ou resultados incorretos
+    - Desempenho Aprimorado: Ao contrário de usar bloqueios manuais, ascoleções concorrentes são otimizadas para permitir acesso simultâneo e paralelo, resultando em um melhor desempenho em cenários concorrentes
+    - Redução de Deadlocks: como elas são projetadas para suportar acesso concorrente, a necessidade de bloqueios manuais é minimizada, o que reduz a probabilidade de ocorrer deadlocks
+  - Desafios relacionados a coleções concorrentes
+    - Complexidade: a utilização delas pode ser mais complexa do que simplesmente usar coleções tradicionais. Os desenvolvedores precisam entender os comportamentos específicos dessas coleções
+    - Comportamento Não Determinístico: a ordem em que as operações concorrentes são executadas pode levar a resultados não determinísticos em algumas situações, especialmente em cenários complexos
+    - Overhead de Memória: algumas coleções concorrentes podem exigir um certo overhead de memória para armazenar informações de controle adicional, o que pode impactar o consumo de memória
+
+
+
+
+
+
 
 
 
