@@ -319,6 +319,62 @@ Curso Treinamento C# Avançado no nextwave(LuisDEV)
     - Task.WhenAll: Cria uma tarefa (task) que será concluída quando todas as tarefas fornecidas forem concluídas
     - Task.Delay: Cria uma tarefa que será concluída após um atraso. (alternativa a Thread.Sleep)
 
+- Dynamic
+  - O dynamic em .NET é um tipo de dados especial que permite que as verificações de tipo sejam realizadas em tempo de execução, em vez de em tempo de compilação. Isso significa que, ao usar dynamic, você não precisa especificar o tipo de dados explicitamente ao escrever código. Em vez disso, o tipo é resolvido          somente durante a execução do programa.
+  - Útil em cenários em que o tipo exato de um objeto não é conhecido até o tempo de execução.
+  - Benefícios relacionados a dynamic:
+    - Flexibilidade para Tratar Dados Dinâmicos: A utilização da palavra-chave dynamic oferece a capacidade de lidar com tipos de dados desconhecidos ou que podem mudar em tempo de execução
+    - Agilidade na Programação e Prototipagem: Em situações onde a velocidade e a prototipagem são essenciais, a utilização do dynamic pode possibilitar uma programação mais ágil. Isso é especialmente útil quando se está explorando dados ou criando protótipos de forma rápida
+    - Redução de Código Repetitivo: Em cenários específicos, a utilização do dynamic pode diminuir a quantidade de código repetitivo necessário para acessar e manipular dados dinâmicos
+  - Cuidados que devemos ter:
+    - Desempenho: O uso excessivo de dynamic pode afetar o desempenho, pois as resoluções de tipo em tempo de execução são mais lentas do que as verificações de tipo em tempo de compilação.
+    - Cuidado com Operações: Certas operações podem falhar em tempo de execução devido a tipos incompatíveis. Verifique e valide cuidadosamente as operações antes de executá-las.
+    - Refatoração com Cuidado: Se você tiver código com muitos usos de dynamic e decidir refatora-lo para tipos estáticos, esteja ciente de que isso pode exigir alterações significativas.
+  - Principais casos de uso
+    - Consulta de Dados Dinâmicos: Em casos em que você está consultando bancos de dados ou fontes de dados que têm esquemas dinâmicos, o dynamic pode ser útil para lidar com diferentes tipos de resultados
+    - UI Dinâmica: Se você estiver construindo interfaces de usuário (UI) dinâmicas ou personalizáveis, o dynamic pode permitir a manipulação de controles e comportamentos sem a necessidade de um conhecimento prévio do layout
+    - Interação com APIs Dinâmicas: Quando você está trabalhando com APIs externas ou bibliotecas COM que expõem objetos dinâmicos, o uso de dynamic pode simplificar a interação, já que os tipos podem ser desconhecidos em tempo de compilação
+  - ExpandoObject
+    - Usado quando existe a necessidade de criar a instância de variáveis dynamic
+    - Permite adicionar e excluir membros de suas instâncias em tempo de execução e também definir e obter valores desses membros
+    - Oferece suporte a controle de estado através da propriedade PropertyChanged que atua como um delegate
+
+- Reflections
+  - Permite que um programa examine e interaja com informações sobre tipos, objetos e membros em tempo de execução
+  - Descobre detalhes sobre as estruturas de classes, como propriedades, métodos e campos, mesmo que não conheça esses detalhes durante a compilação
+  - OBS: o Entity framework faz uso de Reflections para setar as propriedades
+  - Benefícios de utilizar Reflections
+    - Flexibilidade Dinâmica: A Reflection proporciona uma flexibilidade excepcional ao permitir que um programa análise e interaja com informações sobre tipos e membros em tempo de execução.
+    - Extensibilidade Aprimorada e Suporte a Plugins: Reflection é fundamental para construir sistemas extensíveis e compatíveis com plugins. Ao permitir que o código principal descubra e interaja com tipos de plugins desconhecidos (ex: Anotações existentes e personalizadas)
+    - Criação de Frameworks e Ferramentas de Desenvolvimento: Reflection é amplamente utilizada na criação de frameworks e ferramentas de desenvolvimento que precisam analisar e interagir com código de terceiros
+  - Cuidados ao utilizar Reflections
+    - Segurança: A Reflection pode abrir brechas de segurança se não for usada com cuidado. Dado que ela permite acessar e modificar informações e objetos em tempo de execução
+    - Manutenção e Legibilidade: O código que faz uso intensivo de Reflection pode ser mais difícil de entender, manter e depurar
+    - Validação de Dados Dinâmicos: Ao interagir com dados dinâmicos usando Reflection, é crucial realizar uma validação completa desses dados antes de qualquer operação
+  - Principais usos de Reflections
+    - FieldInfo e PropertyInfo: para descobrir informações como o nome, osmodificadores de acesso (como public ou private) e detalhes de implementação (como static) de um campo e para obter ou definir os valores de campo
+    - CustomAttributeData: para descobrir informações sobre atributos personalizados ao trabalhar no contexto de somente reflexão de umdomínio do aplicativo
+  - Mas o que é CustomAttributeData?
+    - Os atributos fornecem uma maneira de associar informações ao código de forma declarativa
+    - Eles também podem fornecer um elemento reutilizável que pode ser aplicado a vários destinos
+    - são usados para fornecer informações adicionais ao compilador e ao tempo de execução sobre o código
+  - Onde CustomAttributeData é suportado
+    - Assembly
+    - Class
+    - Constructor
+    - Delegate
+    - Enum
+    - Event
+    - Field
+    - GenericParameter
+    - Interface
+    - Method
+    - Module
+    - Parameter
+    - Property
+    - ReturnValue
+    - Struct
+
 
 
 
